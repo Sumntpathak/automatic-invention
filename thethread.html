@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>What You Made Of Me — Six Years</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Great+Vibes&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #f4e9d8;
+    --rose: #e6a4b4;
+    --deep: #0c0612;
+    --gold: #d4af7a;
+    --blood: #8b3a4a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: #050208;
+    color: var(--ink);
+    font-family: 'Cormorant Garamond', serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+    scroll-behavior: smooth;
+    line-height: 1.6;
+  }
+  body::before {
+    content: "";
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 10%, rgba(230,164,180,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 60%, rgba(212,175,122,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at center, #1a0d22 0%, #0a050f 60%, #050208 100%);
+    z-index: -2;
+  }
+  /* CSS Starfield - no canvas lag */
+  .stars {
+    position: fixed; inset: 0;
+    z-index: -1; pointer-events: none;
+    background-image:
+      radial-gradient(1px 1px at 20px 30px, #fff, rgba(0,0,0,0)),
+      radial-gradient(1px 1px at 60px 70px, #fff, rgba(0,0,0,0));
+    background-repeat: repeat;
+    background-size: 200px 200px;
+    animation: twinkle 5s ease-in-out infinite;
+    opacity: 0.5;
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.7; }
+  }
+
+  /* ---- The Thread ---- */
+  .thread-wrap {
+    position: fixed;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 80px; height: 100vh;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .thread-svg { width: 100%; height: 100%; will-change: transform; }
+
+  /* ---- Chapters ---- */
+  section.chapter {
+    position: relative;
+    z-index: 2;
+    min-height: 100vh;
+    padding: 12vh 6vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    transition: background 1.2s ease;
+  }
+  section.chapter::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: transparent;
+    border-radius: 0;
+    z-index: -1;
+    transition: all 0.8s ease;
+  }
+
+  /* Subtle backgrounds per year (NO backdrop-filter for performance) */
+  section.chapter#y1::before {
+    background: radial-gradient(ellipse at 50% 50%, rgba(230,164,180,0.02), transparent 70%);
+  }
+  section.chapter#y2::before {
+    background: linear-gradient(135deg, rgba(212,175,122,0.02) 0%, rgba(230,164,180,0.01) 100%);
+  }
+  section.chapter#y3::before {
+    background: linear-gradient(135deg, rgba(139,58,74,0.03), rgba(230,164,180,0.02));
+  }
+  section.chapter#y4::before {
+    background: linear-gradient(135deg, rgba(212,175,122,0.03), rgba(230,164,180,0.02));
+  }
+  section.chapter#y5::before {
+    background: linear-gradient(135deg, rgba(230,164,180,0.04), rgba(212,175,122,0.03));
+  }
+  section.chapter#y6::before {
+    background: linear-gradient(135deg, rgba(230,164,180,0.05), rgba(212,175,122,0.04), rgba(230,164,180,0.03));
+  }
+
+  .chapter-inner {
+    max-width: 760px;
+    width: 100%;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1.4s ease, transform 1.4s ease;
+    position: relative;
+    z-index: 1;
+  }
+  .chapter-inner.in { opacity: 1; transform: translateY(0); }
+
+  .chapter-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    letter-spacing: 0.5em;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    opacity: 0.7;
+  }
+  .chapter-title {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(2.4rem, 6vw, 4.5rem);
+    color: var(--rose);
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 30px rgba(230,164,180,0.3);
+    line-height: 1.1;
+  }
+  .chapter-subtitle {
+    font-style: italic;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    font-size: 0.95rem;
+    margin-bottom: 3rem;
+    text-transform: uppercase;
+  }
+  .verse {
+    font-size: clamp(1.15rem, 2.2vw, 1.55rem);
+    font-weight: 300;
+    line-height: 1.85;
+    margin-bottom: 2rem;
+  }
+  .verse em { color: var(--rose); font-weight: 400; }
+  .verse strong { color: var(--gold); font-weight: 500; }
+
+  /* ---- Two voices ---- */
+  .voices {
+    margin: 2rem auto 2.5rem;
+    text-align: left;
+    border-left: 2px solid rgba(212,175,122,0.25);
+    padding-left: 1.5rem;
+  }
+  .voice-line { margin-bottom: 1.2rem; font-size: 1.05rem; line-height: 1.7; }
+  .voice-label {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    margin-right: 0.6rem;
+    padding: 0.15rem 0.55rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+    vertical-align: middle;
+  }
+  .voice-label.then  { background: rgba(139,58,74,0.25); color: #e1a8b2; }
+  .voice-label.now   { background: rgba(212,175,122,0.18); color: var(--gold); }
+  .voice-text.then  { font-style: italic; opacity: 0.85; }
+  .voice-text.now   { color: var(--ink); }
+
+  /* ---- Cards ---- */
+  .card {
+    background: rgba(255,255,255,0.015);
+    border: 1px solid rgba(212,175,122,0.15);
+    border-radius: 14px;
+    padding: 1.8rem;
+    margin: 1.5rem auto;
+    text-align: left;
+    transition: border-color 0.6s ease, background 0.6s ease, transform 0.4s ease;
+  }
+  .card:hover {
+    border-color: var(--rose);
+    background: rgba(230,164,180,0.04);
+    transform: translateY(-3px);
+  }
+  .card .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+  .card .movie-title {
+    font-size: 1.3rem;
+    color: var(--rose);
+    margin-bottom: 0.6rem;
+    cursor: pointer;
+    text-decoration: underline dotted rgba(230,164,180,0.3);
+    text-underline-offset: 4px;
+  }
+  .card .movie-title:hover { color: var(--gold); }
+  .card .dialogue {
+    font-style: italic;
+    color: var(--ink);
+    font-size: 1.1rem;
+    line-height: 1.7;
+    border-left: 2px solid var(--rose);
+    padding-left: 1rem;
+    margin: 0.8rem 0;
+  }
+
+  .song-buttons {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+    align-items: center;
+  }
+  .energy-meter {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: rgba(212,175,122,0.5);
+    display: inline-flex;
+    gap: 0.3rem;
+    margin-left: 0.5rem;
+    text-transform: uppercase;
+  }
+  .energy-bar {
+    display: inline-block;
+    width: 3px;
+    height: 10px;
+    background: rgba(212,175,122,0.3);
+    border-radius: 2px;
+    transition: background 0.6s ease;
+  }
+  .energy-bar.active { background: var(--gold); }
+  .energy-bar.warm { background: var(--rose); }
+
+  .song-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    padding: 0.6rem 1.1rem;
+    border-radius: 30px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.4s ease;
+    text-transform: uppercase;
+  }
+  .song-btn:hover {
+    background: var(--gold);
+    color: var(--deep);
+    box-shadow: 0 0 25px rgba(212,175,122,0.4);
+  }
+  .song-btn.spotify { border-color: #1db954; color: #1db954; }
+  .song-btn.spotify:hover { background: #1db954; color: var(--deep); box-shadow: 0 0 25px rgba(29,185,84,0.4); }
+
+  /* Music energy visualization */
+  #y1 .energy-bar:nth-child(1),
+  #y1 .energy-bar:nth-child(2),
+  #y1 .energy-bar:nth-child(3),
+  #y1 .energy-bar:nth-child(4),
+  #y1 .energy-bar:nth-child(5) { background: var(--gold); }
+
+  #y2 .energy-bar:nth-child(1),
+  #y2 .energy-bar:nth-child(2),
+  #y2 .energy-bar:nth-child(3),
+  #y2 .energy-bar:nth-child(4) { background: var(--gold); }
+  #y2 .energy-bar:nth-child(5) { background: rgba(212,175,122,0.3); }
+
+  #y3 .energy-bar:nth-child(1),
+  #y3 .energy-bar:nth-child(2),
+  #y3 .energy-bar:nth-child(3) { background: var(--gold); }
+  #y3 .energy-bar:nth-child(4),
+  #y3 .energy-bar:nth-child(5) { background: rgba(212,175,122,0.3); }
+
+  #y4 .energy-bar:nth-child(1),
+  #y4 .energy-bar:nth-child(2) { background: var(--gold); }
+  #y4 .energy-bar:nth-child(3),
+  #y4 .energy-bar:nth-child(4),
+  #y4 .energy-bar:nth-child(5) { background: rgba(212,175,122,0.3); }
+
+  #y5 .energy-bar:nth-child(1) { background: var(--rose); }
+  #y5 .energy-bar:nth-child(2),
+  #y5 .energy-bar:nth-child(3),
+  #y5 .energy-bar:nth-child(4),
+  #y5 .energy-bar:nth-child(5) { background: rgba(212,175,122,0.3); }
+
+  #y6 .energy-bar { background: rgba(212,175,122,0.3); }
+
+  .gesture {
+    background: linear-gradient(135deg, rgba(230,164,180,0.06), rgba(212,175,122,0.03));
+    border-left: 3px solid var(--rose);
+    padding: 1.3rem 1.5rem;
+    margin: 1.5rem auto;
+    text-align: left;
+    font-style: italic;
+    border-radius: 8px;
+  }
+  .gesture .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    color: var(--rose);
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+    font-style: normal;
+  }
+
+  /* ---- Ambient ---- */
+  .ambient {
+    position: absolute;
+    font-size: 0.85rem;
+    color: rgba(244,233,216,0.25);
+    font-style: italic;
+    max-width: 240px;
+    pointer-events: none;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .ambient.left  { left: 4vw; top: 18%; }
+  .ambient.right { right: 4vw; top: 65%; text-align: right; }
+
+  /* ---- Pick a Fight (Year 3) ---- */
+  .fight-box { margin: 3rem auto; text-align: center; }
+  .fight-btn {
+    background: var(--blood);
+    border: none;
+    color: var(--ink);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.2em;
+    padding: 1rem 2.2rem;
+    border-radius: 40px;
+    cursor: pointer;
+    text-transform: uppercase;
+    box-shadow: 0 0 30px rgba(139,58,74,0.5);
+    transition: all 0.4s ease;
+  }
+  .fight-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 50px rgba(139,58,74,0.8);
+  }
+  .fight-card {
+    margin-top: 2rem;
+    background: rgba(139,58,74,0.08);
+    border: 1px solid var(--blood);
+    border-radius: 14px;
+    padding: 2rem;
+    text-align: left;
+    min-height: 200px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .fight-card.show { opacity: 1; transform: translateY(0); }
+  .fight-card .her-line {
+    font-size: 1.15rem;
+    color: var(--ink);
+    font-style: italic;
+    line-height: 1.7;
+    margin-bottom: 1.2rem;
+  }
+  .fight-card .her-line::before {
+    content: "She: ";
+    color: var(--rose);
+    font-style: normal;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    margin-right: 0.5rem;
+  }
+  .fight-card .my-line {
+    color: var(--gold);
+    font-style: italic;
+    line-height: 1.7;
+    padding-top: 1rem;
+    border-top: 1px dashed rgba(212,175,122,0.3);
+  }
+  .fight-card .my-line::before {
+    content: "Me, looking back: ";
+    color: var(--gold);
+    font-style: normal;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    margin-right: 0.5rem;
+    opacity: 0.7;
+  }
+
+  /* ---- The Ring ---- */
+  .ring-stage { margin: 3rem auto; width: 220px; height: 220px; position: relative; }
+  .ring-stage svg { width: 100%; height: 100%; }
+  .final-line {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    color: var(--rose);
+    line-height: 1.2;
+    margin-top: 2rem;
+  }
+  .countdown {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--gold);
+    letter-spacing: 0.25em;
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+  }
+
+  /* ---- Full Note Button ---- */
+  .full-note-btn {
+    background: linear-gradient(135deg, rgba(230,164,180,0.15), rgba(212,175,122,0.1));
+    border: 1.5px solid var(--rose);
+    color: var(--rose);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.15em;
+    padding: 0.9rem 2.5rem;
+    border-radius: 40px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.4s ease;
+    text-transform: uppercase;
+    display: inline-block;
+    box-shadow: 0 0 20px rgba(230,164,180,0.2);
+  }
+  .full-note-btn:hover {
+    background: linear-gradient(135deg, rgba(230,164,180,0.25), rgba(212,175,122,0.15));
+    border-color: var(--gold);
+    color: var(--gold);
+    transform: translateY(-2px);
+    box-shadow: 0 0 40px rgba(230,164,180,0.4);
+  }
+
+  /* ---- Modal ---- */
+  .modal-bg {
+    position: fixed; inset: 0;
+    background: rgba(5,2,8,0.95);
+    z-index: 100;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+  .modal-bg.open { display: flex; }
+  .modal {
+    background: linear-gradient(135deg, #1a0d22, #0c0612);
+    border: 1px solid var(--rose);
+    border-radius: 16px;
+    padding: 2.5rem;
+    max-width: 600px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 0 80px rgba(230,164,180,0.3);
+  }
+  .modal h3 {
+    font-family: 'Great Vibes', cursive;
+    color: var(--rose);
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+    font-weight: 400;
+  }
+  .modal p { line-height: 1.7; margin-bottom: 1rem; }
+  .modal-close {
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 0.5rem 1.2rem;
+    border-radius: 30px;
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.2em;
+    margin-top: 1rem;
+    font-size: 0.8rem;
+  }
+  .modal-close:hover { background: var(--gold); color: var(--deep); }
+
+  /* ---- Cover ---- */
+  .cover {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    position: relative;
+    z-index: 2;
+  }
+  .cover .pre {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--gold);
+    letter-spacing: 0.4em;
+    font-size: 0.8rem;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeRise 2s ease-out 0.2s forwards;
+  }
+  .cover h1 {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(3rem, 9vw, 6.5rem);
+    color: var(--rose);
+    text-shadow: 0 0 40px rgba(230,164,180,0.4);
+    margin-bottom: 1.2rem;
+    opacity: 0;
+    animation: fadeRise 2.5s ease-out 0.6s forwards;
+    line-height: 1.05;
+  }
+  .cover .tag {
+    font-style: italic;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    font-size: clamp(0.9rem, 1.6vw, 1.1rem);
+    opacity: 0;
+    animation: fadeRise 2.5s ease-out 1.4s forwards;
+  }
+  .cover .meta {
+    font-family: 'JetBrains Mono', monospace;
+    color: rgba(244,233,216,0.4);
+    letter-spacing: 0.3em;
+    font-size: 0.72rem;
+    margin-top: 4rem;
+    opacity: 0;
+    animation: fadeRise 2.5s ease-out 2.2s forwards;
+    line-height: 2;
+  }
+  .scroll-cue {
+    margin-top: 3rem;
+    font-size: 0.85rem;
+    letter-spacing: 0.3em;
+    color: rgba(244,233,216,0.4);
+    opacity: 0;
+    animation: fadeRise 2.5s ease-out 2.8s forwards, bob 2.5s ease-in-out 3.5s infinite;
+  }
+
+  @keyframes fadeRise {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes bob {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(8px); }
+  }
+  @keyframes pulse-glow {
+    0%, 100% { filter: drop-shadow(0 0 6px rgba(212,175,122,0.6)); }
+    50%      { filter: drop-shadow(0 0 18px rgba(230,164,180,0.9)); }
+  }
+
+  /* Music Player */
+  .music-player {
+    position: fixed;
+    bottom: 2rem;
+    left: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    z-index: 50;
+    background: rgba(12,6,18,0.85);
+    padding: 0.7rem 1.2rem;
+    border-radius: 30px;
+    border: 1px solid rgba(212,175,122,0.2);
+    transition: all 0.4s ease;
+  }
+  .music-player:hover {
+    background: rgba(12,6,18,0.9);
+    border-color: rgba(212,175,122,0.4);
+  }
+  .music-toggle {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .music-toggle:hover {
+    transform: scale(1.15);
+  }
+  .music-toggle.muted {
+    opacity: 0.5;
+  }
+  .music-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: rgba(244,233,216,0.6);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* Mood indicator */
+  .mood-indicator {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: rgba(244,233,216,0.4);
+    z-index: 50;
+    transition: color 0.6s ease;
+    pointer-events: none;
+  }
+  .mood-indicator.loud { color: rgba(212,175,122,0.8); }
+  .mood-indicator.intense { color: rgba(230,164,180,0.7); }
+  .mood-indicator.building { color: rgba(212,175,122,0.6); }
+  .mood-indicator.tender { color: rgba(230,164,180,0.8); }
+  .mood-indicator.peaceful { color: rgba(230,164,180,0.9); }
+
+  /* Mobile adjustments for music player */
+  @media (max-width: 480px) {
+    .music-player {
+      bottom: 1rem;
+      left: 1rem;
+      padding: 0.6rem 1rem;
+    }
+    .music-label {
+      font-size: 0.65rem;
+    }
+  }
+
+  /* ---- Mobile Optimization ---- */
+  @media (max-width: 768px) {
+    :root {
+      font-size: 14px;
+    }
+    .thread-wrap { width: 40px; }
+    .ambient { display: none; }
+    section.chapter {
+      padding: 8vh 5vw;
+      min-height: 80vh;
+    }
+    .chapter-inner {
+      max-width: 100%;
+    }
+    .chapter-title {
+      font-size: clamp(1.8rem, 5vw, 3rem);
+    }
+    .verse {
+      font-size: clamp(0.95rem, 1.8vw, 1.3rem);
+    }
+    .card {
+      padding: 1.2rem;
+      margin: 1rem auto;
+    }
+    .fight-btn {
+      padding: 0.8rem 1.8rem;
+      font-size: 0.95rem;
+    }
+    .song-buttons {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .song-btn {
+      width: 100%;
+      justify-content: center;
+      font-size: 0.75rem;
+    }
+    .energy-meter {
+      margin-left: 0;
+      margin-top: 0.5rem;
+      justify-content: center;
+    }
+    .mood-indicator {
+      bottom: 1rem;
+      right: 1rem;
+      font-size: 0.6rem;
+    }
+    .final-line {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+    }
+    .ring-stage {
+      width: 160px;
+      height: 160px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    section.chapter {
+      padding: 6vh 4vw;
+      min-height: 70vh;
+    }
+    .chapter-num {
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+    }
+    .chapter-title {
+      font-size: clamp(1.5rem, 4.5vw, 2.5rem);
+      margin-bottom: 0.3rem;
+    }
+    .chapter-subtitle {
+      font-size: 0.8rem;
+      margin-bottom: 2rem;
+    }
+    .verse {
+      font-size: clamp(0.9rem, 1.6vw, 1.1rem);
+      margin-bottom: 1.5rem;
+    }
+    .voices {
+      padding-left: 1rem;
+      border-left-width: 1.5px;
+    }
+    .voice-line {
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+    .voice-label {
+      font-size: 0.65rem;
+      padding: 0.1rem 0.4rem;
+    }
+    .card {
+      padding: 1rem;
+      border-radius: 10px;
+    }
+    .card .label {
+      font-size: 0.65rem;
+    }
+    .card .movie-title {
+      font-size: 1.1rem;
+    }
+    .song-btn {
+      padding: 0.5rem 0.8rem;
+      font-size: 0.7rem;
+    }
+    .gesture {
+      padding: 1rem 1.2rem;
+      border-left: 2.5px solid var(--rose);
+    }
+    .gesture .label {
+      font-size: 0.65rem;
+    }
+    .fight-box {
+      margin: 2rem auto;
+    }
+    .fight-btn {
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+    }
+    .final-line {
+      font-size: clamp(1.4rem, 3.5vw, 2rem);
+      margin-top: 1.5rem;
+    }
+    .countdown {
+      font-size: 0.75rem;
+      margin-top: 1rem;
+    }
+    .mood-indicator {
+      bottom: 0.8rem;
+      right: 0.8rem;
+      font-size: 0.55rem;
+    }
+    .cover .pre {
+      font-size: 0.7rem;
+      margin-bottom: 1rem;
+    }
+    .cover h1 {
+      font-size: clamp(2.2rem, 7vw, 4.5rem);
+      margin-bottom: 0.8rem;
+    }
+    .cover .tag {
+      font-size: clamp(0.8rem, 1.4vw, 0.95rem);
+    }
+    .cover .meta {
+      font-size: 0.65rem;
+      margin-top: 2.5rem;
+      line-height: 1.6;
+    }
+    .scroll-cue {
+      font-size: 0.75rem;
+      margin-top: 2rem;
+    }
+  }
+
+  /* Touch-friendly interactions */
+  @media (hover: none) and (pointer: coarse) {
+    .song-btn {
+      padding: 0.8rem 1.3rem;
+    }
+    .fight-btn {
+      padding: 1.1rem 2.5rem;
+      min-height: 48px;
+    }
+    .modal-close {
+      min-height: 44px;
+      padding: 0.7rem 1.5rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="stars"></div>
+
+<!-- Ambient Background Music -->
+<audio id="ambientAudio" loop style="display: none;">
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
+<!-- Music Player Control -->
+<div class="music-player">
+  <button id="musicToggle" class="music-toggle" title="Toggle background music">
+    <span id="musicIcon">🔊</span>
+  </button>
+  <div class="music-label">Bairan</div>
+</div>
+
+<!-- Mood indicator -->
+<div class="mood-indicator" id="moodIndicator">// MUSIC MOOD: BUILDING</div>
+
+<!-- The morphing thread -->
+<div class="thread-wrap">
+  <svg class="thread-svg" id="thread" viewBox="0 0 80 1000" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="goldGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#d4af7a"/>
+        <stop offset="50%" stop-color="#e6a4b4"/>
+        <stop offset="100%" stop-color="#d4af7a"/>
+      </linearGradient>
+      <filter id="glow">
+        <feGaussianBlur stdDeviation="2" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+    <line id="thread-line" x1="40" y1="0" x2="40" y2="1000"
+          stroke="url(#goldGrad)" stroke-width="2"
+          stroke-dasharray="2000" stroke-dashoffset="2000"
+          filter="url(#glow)" />
+  </svg>
+</div>
+
+<!-- ============== COVER ============== -->
+<div class="cover">
+  <p class="pre">A LETTER, ON THE SIXTH ANNIVERSARY</p>
+  <h1>What You<br/>Made of Me</h1>
+  <p class="tag">six years &nbsp;&middot;&nbsp; a careless boy &nbsp;&middot;&nbsp; the woman who unmade him</p>
+  <p class="meta">
+    THE COLLISION &nbsp;&middot;&nbsp; THE MIRROR &nbsp;&middot;&nbsp; THE HARD YEAR<br/>
+    THE SHEDDING &nbsp;&middot;&nbsp; THE RECOGNITION &nbsp;&middot;&nbsp; THE VOW BEFORE THE VOW
+  </p>
+  <p class="scroll-cue">scroll, my love &nbsp;↓</p>
+</div>
+
+<!-- ============== YEAR 1 ============== -->
+<section class="chapter" id="y1">
+  <p class="ambient left">// she said yes,<br/>and the boy didn't yet realise<br/>he had been let into a room<br/>he hadn't yet earned.</p>
+  <div class="chapter-inner">
+    <p class="chapter-num">YEAR &nbsp;ONE</p>
+    <h2 class="chapter-title">The Collision</h2>
+    <p class="chapter-subtitle">You said yes &nbsp;·&nbsp; I arrived as I was</p>
+
+    <p class="verse">
+      The first year of us, I came to you <em>exactly as I was.</em>
+      Loud where I should have been still. Careless where I should have been careful.
+      Laughing through serious sentences. Confident in a hundred wrong ways.
+      <br/><br/>
+      You watched. You laughed. You said nothing yet.
+      <strong>You were taking notes.</strong>
+    </p>
+
+    <div class="voices">
+      <div class="voice-line">
+        <span class="voice-label then">The boy, then</span>
+        <span class="voice-text then">"Yaar, I'm in a relationship now. I'm winning. Nothing else has to change."</span>
+      </div>
+      <div class="voice-line">
+        <span class="voice-label now">The man, now</span>
+        <span class="voice-text now">Nothing else has to change &mdash; the most dangerous sentence a boy ever says to a woman who can see him clearly.</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="label">SONG &nbsp;·&nbsp; YEAR ONE</p>
+      <p class="movie-title" onclick="openMovie('Budapest')">Budapest</p>
+      <p class="dialogue">"Give me a second I, I need to get my story straight…"</p>
+      <p style="font-size: 0.9rem; opacity: 0.7; margin-top: 0.5rem;">George Ezra's passion and recklessness. "I would cross the distance for you." Year One, I meant it carelessly. I didn't yet know what it cost.</p>
+      <div class="song-buttons">
+        <a class="song-btn" target="_blank" href="https://www.youtube.com/results?search_query=budapest+george+ezra">▶ Budapest</a>
+        <a class="song-btn spotify" target="_blank" href="https://open.spotify.com/search/budapest%20george%20ezra">♪ Spotify</a>
+        <div class="energy-meter" title="Energy Level"><span class="energy-bar"></span><span class="energy-bar"></span><span class="energy-bar"></span><span class="energy-bar"></span><span class="energy-bar"></span> LOUD & PASSIONATE</div>
+      </div>
+    </div>
+
+    <div class="gesture">
+      <p class="label">What you noticed, but didn't tell me yet</p>
+      That I interrupted you. That I forgot small dates. That I made jokes when you wanted me to be serious. You kept the receipts quietly. You were not collecting evidence to leave. You were collecting evidence to <em>build.</em>
+    </div>
+  </div>
+</section>
+
+<!-- ============== YEAR 2 ============== -->
+<section class="chapter" id="y2">
+  <p class="ambient right">// the hardest mirror in the world<br/>is the one held up<br/>by someone who loves you.</p>
+  <div class="chapter-inner">
+    <p class="chapter-num">YEAR &nbsp;TWO</p>
+    <h2 class="chapter-title">The Mirror</h2>
+    <p class="chapter-subtitle">You started showing me to me</p>
+
+    <p class="verse">
+      In Year Two you began, very gently, to repeat my own words back to me &mdash;
+      in my own voice, at the exact wrong moment, so I could hear myself <em>from outside.</em>
+      <br/><br/>
+      It was unbearable. It was the beginning of everything.
+    </p>
+
+    <div class="voices">
+      <div class="voice-line">
+        <span class="voice-label then">The boy, then</span>
+        <span class="voice-text then">"Yaar tu zyada serious le rahi hai. I was just joking. Chill kar."</span>
+      </div>
+      <div class="voice-line">
+        <span class="voice-label now">The man, now</span>
+        <span class="voice-text now">"Chill kar" was, I now know, the white flag of a boy who had no actual defence. You weren't taking it seriously. <em>I wasn't taking it seriously enough.</em> And you knew the difference.</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="label">SONG &nbsp;·&nbsp; YEAR TWO</p>
+      <p class="movie-title" onclick="openMovie('The Night We Met')">The Night We Met</p>
+      <p class="dialogue">"And I had all and then most of you, some and now none of you…"</p>
+      <p style="font-size: 0.9rem; opacity: 0.7; margin-top: 0.5rem;">A song about looking back and wishing to return to a moment. Year Two was when I started realizing what I was losing in real time — the boy I was, the carelessness, the easy version of myself.</p>
+      <div class="song-buttons">
+        <a class="song-btn" target="_blank" href="https://www.youtube.com/results?search_query=the+night+we+met+lord+huron">▶ The Night We Met</a>
+        <a class="song-btn spotify" target="_blank" href="https://open.spotify.com/search/the%20night%20we%20met">♪ Spotify</a>
+        <div class="energy-meter" title="Energy Level"><span class="energy-bar"></span><span class="energy-bar"></span><span class="energy-bar"></span><span class="energy-bar"></span><span class="energy-bar"></span> INTROSPECTIVE & LONGING</div>
+      </div>
+    </div>
+
+    <div class="gesture">
+      <p class="label">The day I first heard myself</p>
+      You repeated something I'd said about my own mother &mdash; flatly, no anger, just back to me. I went silent for an hour. That hour did more for me than every lecture I'd ever ignored.
+    </div>
+  </div>
+</section>
+
+<!-- ============== YEAR 3 — THE HARD YEAR ============== -->
+<section class="chapter" id="y3">
+  <p class="ambient left">// this was the year<br/>the cute version of love ended<br/>and the real one began.</p>
+  <div class="chapter-inner">
+    <p class="chapter-num">YEAR &nbsp;THREE</p>
+    <h2 class="chapter-title">The Hard Year</h2>
+    <p class="chapter-subtitle">Real fights &nbsp;·&nbsp; Real consequences &nbsp;·&nbsp; Real growth</p>
+
+    <p class="verse">
+      Year Three was the year I stopped <em>performing</em> love and started <em>practicing</em> it.
+      You stopped letting me get away with charm. You wanted depth, and depth is built from the same material as pain &mdash;
+      friction, time, and the refusal to walk away when it would have been easier to.
+      <br/><br/>
+      We fought like we meant it. You argued like a lawyer.
+      I lost every case. And every loss took a small piece of the careless boy with it.
+    </p>
+
+    <div class="voices">
+      <div class="voice-line">
+        <span class="voice-label then">The boy, then</span>
+        <span class="voice-text then">"Tu kabhi maan hi nahi sakti ki tu wrong ho. Hamesha tu ek lawyer ki tarah baat karti hai."</span>
+      </div>
+      <div class="voice-line">
+        <span class="voice-label now">The man, now</span>
+        <span class="voice-text now">Of course you argued like a lawyer. You were defending us against the version of me that was going to ruin us. I called it stubbornness then. I call it <em>love at the bar</em> now.</span>
+      </div>
+    </div>
+
+    <!-- THE PICK A FIGHT INTERACTIVE -->
+    <div class="fight-box">
+      <p style="font-family: 'JetBrains Mono', monospace; letter-spacing: 0.2em; color: var(--rose); font-size: 0.85rem; margin-bottom: 1.2rem;">
+        // FOR HER: PRESS THE BUTTON
+      </p>
+      <button class="fight-btn" onclick="pickAFight()">🔥 Pick one of our fights</button>
+      <div class="fight-card" id="fight-card">
+        <p class="her-line" id="her-line"></p>
+        <p class="my-line" id="my-line"></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="label">SONG &nbsp;·&nbsp; YEAR THREE</p>
+      <p class="movie-title" onclick="openMovie('Fix You')">Fix You</p>
+      <p class="dialogue">"When you were young you'd fall and scrape your knees and bleed…"</p>
+      <p style="font-size: 0.9rem; opacity: 0.7; margin-top: 0.5rem;">Coldplay's masterpiece about rebuilding. Year Three was the collision of your love and my resistance. You didn't try to fix me gently. You insisted. And it hurt like healing always does.</p>
+      <div class="song-buttons">
+        <a class="song-btn" target="_blank" href="https://www.youtube.com/results?search_query=fix+you+coldplay">▶ Fix You</a>
+        <a class="song-btn spotify" target="_blank" href="https://open.spotify.com/search/fix%20you%20coldplay">♪ Spotify</a>
+        <div class="energy-meter" title="Energy Level"><span class="energy-bar"></span><span class="energy-bar"></span><span class="energy-bar"></span><span class="energy-bar"></span><span class="energy-bar"></span> INTENSE & BUILDING</div>
+      </div>
+    </div>
+
+    <div class="gesture">
+      <p class="label">What I owe you for Year Three</p>
+      Every fight you started that year was not because you wanted to be right. It was because you wanted me to be <em>better.</em> You picked the fights other people would have left me to my worst self over. You believed I was a renovation project worth the dust.
+    </div>
+  </div>
+</section>
+
+<!-- ============== YEAR 4 ============== -->
+<section class="chapter" id="y4">
+  <p class="ambient right">// my old self<br/>started leaving the room<br/>without saying goodbye.</p>
+  <div class="chapter-inner">
+    <p class="chapter-num">YEAR &nbsp;FOUR</p>
+    <h2 class="chapter-title">The Shedding</h2>
+    <p class="chapter-subtitle">Old habits started dying &nbsp;·&nbsp; Old friends noticed</p>
+
+    <p class="verse">
+      Year Four was quieter, and that was the point.
+      The drinking slowed. The loud jokes thinned out. I started answering my mother's calls on the first ring.
+      I stopped winning at things I should have lost gracefully.
+      <br/><br/>
+      Old friends teased me. <em>"Yaar tu badal gaya hai. Wife material ne pakad liya tujhe."</em>
+      I let them. They were right, and they did not understand. Both can be true.
+    </p>
+
+    <div class="voices">
+      <div class="voice-line">
+        <span class="voice-label then">The boy, then</span>
+        <span class="voice-text then">"Yaar I'm still the same. Bas thoda mature ho gaya hoon. Khatam topic."</span>
+      </div>
+      <div class="voice-line">
+        <span class="voice-label now">The man, now</span>
+        <span class="voice-text now">I was not "thoda mature." I was being <em>quietly rebuilt</em>, and the only person inside that construction site was you. Everyone else just saw the scaffolding come down.</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="label">SONG &nbsp;·&nbsp; YEAR FOUR</p>
+      <p class="movie-title" onclick="openMovie('Home')">Home</p>
+      <p class="dialogue">"Home is whenever I'm with you…"</p>
+      <p style="font-size: 0.9rem; opacity: 0.7; margin-top: 0.5rem;">Edward Sharpe's gentlest truth. Year Four I stopped running from place to place and realized: the place was you. Home wasn't a destination anymore. It was a person. It was you.</p>
+      <div class="song-buttons">
+        <a class="song-btn" target="_blank" href="https://www.youtube.com/results?search_query=home+edward+sharpe+magnetic+zeros">▶ Home</a>
+        <a class="song-btn spotify" target="_blank" href="https://open.spotify.com/search/home%20edward%20sharpe">♪ Spotify</a>
+        <div class="energy-meter" title="Energy Level"><span class="energy-bar"></span><span class="energy-bar"></span><span class="energy-bar"></span><span class="energy-bar"></span><span class="energy-bar"></span> WARM & SOARING</div>
+      </div>
+    </div>
+
+    <div class="gesture">
+      <p class="label">A habit you killed without knowing</p>
+      I used to interrupt strangers mid-sentence to be funny. One day, in a restaurant, I caught myself <em>not doing it</em> &mdash; and realised I hadn't done it in months. That habit didn't die on its own. You killed it. You never even told me you were aiming.
+    </div>
+  </div>
+</section>
+
+<!-- ============== YEAR 5 ============== -->
+<section class="chapter" id="y5">
+  <p class="ambient left">// I looked in a mirror<br/>and met a man<br/>I had been waiting for.</p>
+  <div class="chapter-inner">
+    <p class="chapter-num">YEAR &nbsp;FIVE</p>
+    <h2 class="chapter-title">The Recognition</h2>
+    <p class="chapter-subtitle">I did not recognise the boy I used to be &mdash; and did not miss him</p>
+
+    <p class="verse">
+      One ordinary morning in Year Five, I caught my own reflection &mdash; literally, or in someone else's reaction to me &mdash;
+      and I did not recognise the boy I used to be.
+      <br/><br/>
+      And then a worse, better thing happened: <em>I did not miss him.</em>
+      The boy you said yes to in Year One had been quietly replaced, year by year, by someone he himself wouldn't have liked.
+      Someone <em>you</em> would.
+    </p>
+
+    <div class="voices">
+      <div class="voice-line">
+        <span class="voice-label then">The boy, then</span>
+        <span class="voice-text then">(silence. for the first time. he had nothing to defend.)</span>
+      </div>
+      <div class="voice-line">
+        <span class="voice-label now">The man, now</span>
+        <span class="voice-text now">Year Five was the year I understood, with my whole body, what you had been doing. You had not loved me <em>as I was.</em> You had loved me <em>into who I could be.</em> Those are not the same thing. The second one is rarer. The second one is what people are talking about when they say <em>saved.</em></span>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="label">SONG &nbsp;·&nbsp; YEAR FIVE</p>
+      <p class="movie-title" onclick="openMovie('Golden')">Golden</p>
+      <p class="dialogue">"Sweet creature in time your heart will be mine…"</p>
+      <p style="font-size: 0.9rem; opacity: 0.7; margin-top: 0.5rem;">Harry Styles singing about discovery and gentleness. Year Five I discovered that the man you'd been building was someone I could finally be proud of. Not perfect. Just becoming.</p>
+      <div class="song-buttons">
+        <a class="song-btn" target="_blank" href="https://www.youtube.com/results?search_query=golden+harry+styles">▶ Golden</a>
+        <a class="song-btn spotify" target="_blank" href="https://open.spotify.com/search/golden%20harry%20styles">♪ Spotify</a>
+        <div class="energy-meter" title="Energy Level"><span class="energy-bar"></span><span class="energy-bar"></span><span class="energy-bar"></span><span class="energy-bar"></span><span class="energy-bar"></span> TENDER & SERENE</div>
+      </div>
+    </div>
+
+    <div class="gesture">
+      <p class="label">The first time I thanked you and meant it</p>
+      It wasn't on a birthday. It wasn't a romantic moment. It was a Tuesday. We were arguing about nothing &mdash; and mid-sentence I stopped and said <em>thank you for staying.</em> You didn't even ask what for. You knew.
+    </div>
+  </div>
+</section>
+
+<!-- ============== YEAR 6 ============== -->
+<section class="chapter" id="y6">
+  <p class="ambient right">// the wedding is only<br/>the day the world finds out<br/>what we have already done.</p>
+  <div class="chapter-inner">
+    <p class="chapter-num">YEAR &nbsp;SIX</p>
+    <h2 class="chapter-title">The Vow Before The Vow</h2>
+    <p class="chapter-subtitle">Tonight &nbsp;·&nbsp; The man you made is the one walking to the mandap</p>
+
+    <p class="verse">
+      Six years ago you said yes to a boy.
+      <br/>In a few months, the world will watch a <em>man</em> say yes back to you. Same body, different soul.
+      You did that. <strong>You.</strong>
+      <br/><br/>
+      Not by lecturing me. Not by leaving and coming back to teach me a lesson. Not by softening yourself to make me comfortable.
+      You did it the hardest way &mdash; by <em>staying</em>, year after year, and gently <em>refusing</em> to settle for the version of me that was easy for both of us.
+    </p>
+
+    <div class="voices">
+      <div class="voice-line">
+        <span class="voice-label then">The boy I was</span>
+        <span class="voice-text then">"I love her." (he meant it. he did not yet know what he was saying.)</span>
+      </div>
+      <div class="voice-line">
+        <span class="voice-label now">The man I am</span>
+        <span class="voice-text now">I love you the way one loves the architect of the house one lives in.
+        Not just for what you have given me &mdash; but for what you have <em>built</em> me into. The wedding is only the ceremony.
+        The marriage <em>has been quietly underway</em> for six years.</span>
+      </div>
+    </div>
+
+    <div class="ring-stage">
+      <svg viewBox="0 0 220 220">
+        <defs>
+          <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#d4af7a"/>
+            <stop offset="50%" stop-color="#e6a4b4"/>
+            <stop offset="100%" stop-color="#d4af7a"/>
+          </linearGradient>
+        </defs>
+        <circle cx="110" cy="110" r="80" fill="none"
+                stroke="url(#ringGrad)" stroke-width="4"
+                style="animation: pulse-glow 3s ease-in-out infinite;"/>
+        <circle cx="110" cy="40" r="8" fill="#e6a4b4"
+                style="animation: pulse-glow 3s ease-in-out infinite;"/>
+      </svg>
+    </div>
+
+    <p class="final-line">
+      Thank you, my love,<br/>for not loving the boy.<br/>
+      Thank you for loving<br/><em>the man you knew was inside him.</em>
+    </p>
+
+    <div class="card" style="margin-top:3rem;">
+      <p class="label">FINAL TRACK &nbsp;·&nbsp; FOR THE AISLE</p>
+      <p class="movie-title" onclick="openMovie('Perfect')">Perfect</p>
+      <p class="dialogue">"I found a love, for me… darling just dive right in and follow my lead…"</p>
+      <p style="font-size: 0.9rem; opacity: 0.7; margin-top: 0.5rem;">Ed Sheeran's wedding anthem. Not because it's famous. Because it's true. Six years of fighting, growing, breaking, and being rebuilt — all for this moment when I can finally say: "You were perfect. You are perfect. You will be perfect."</p>
+      <div class="song-buttons">
+        <a class="song-btn" target="_blank" href="https://www.youtube.com/results?search_query=perfect+ed+sheeran">▶ Perfect</a>
+        <a class="song-btn spotify" target="_blank" href="https://open.spotify.com/search/perfect%20ed%20sheeran">♪ Spotify</a>
+        <div class="energy-meter" title="Energy Level"><span class="energy-bar"></span><span class="energy-bar"></span><span class="energy-bar"></span><span class="energy-bar"></span><span class="energy-bar"></span> ETERNAL & PEACEFUL</div>
+      </div>
+    </div>
+
+    <p class="countdown" id="countdown">// THE WEDDING DATE GOES HERE &mdash; SEND IT TO ME AND I'LL COUNT THE DAYS</p>
+
+    <div style="margin: 3rem auto; text-align: center;">
+      <button class="full-note-btn" onclick="openFullNote()">📖 Read Full Letter</button>
+    </div>
+
+    <p style="margin-top: 4rem; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.4em; font-size: 0.72rem; color: rgba(244,233,216,0.4); text-align: center;">
+      &mdash; END OF THE THREAD &mdash;<br/><br/>
+      &mdash; BEGINNING OF EVERYTHING ELSE &mdash;
+    </p>
+  </div>
+</section>
+
+<!-- ============== MOVIE MODAL ============== -->
+<div class="modal-bg" id="modalBg" onclick="if(event.target===this) closeMovie()">
+  <div class="modal">
+    <h3 id="modalTitle"></h3>
+    <div id="modalBody"><p style="opacity:0.6;">Loading from Wikipedia…</p></div>
+    <button class="modal-close" onclick="closeMovie()">CLOSE</button>
+  </div>
+</div>
+
+<script>
+  // ============ Thread morphology, recalibrated for 6 years ============
+  // Y1 (0-16%): hesitant thin (just-began)
+  // Y2 (16-33%): cleaner, single strand
+  // Y3 (33-50%): STRESS — dotted/glitch, almost breaking (the hard year)
+  // Y4 (50-66%): re-solidifying
+  // Y5 (66-83%): braided pattern (two becoming one)
+  // Y6 (83-100%): thick, glowing, becoming the ring
+  const threadLine = document.getElementById('thread-line');
+  const totalLen = 2000;
+  const moodIndicator = document.getElementById('moodIndicator');
+
+  function updateThread() {
+    const scrolled = window.scrollY;
+    const docH = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = Math.min(1, Math.max(0, scrolled / docH));
+    threadLine.setAttribute('stroke-dashoffset', String(totalLen * (1 - pct)));
+
+    // Update mood and music energy indicator
+    if (pct < 0.16) {
+      threadLine.setAttribute('stroke-dasharray', '2000');
+      threadLine.setAttribute('stroke-width', '1.5');
+      moodIndicator.textContent = '// MUSIC MOOD: LOUD & PLAYFUL';
+      moodIndicator.className = 'mood-indicator loud';
+    } else if (pct < 0.33) {
+      threadLine.setAttribute('stroke-dasharray', '2000');
+      threadLine.setAttribute('stroke-width', '2');
+      moodIndicator.textContent = '// MUSIC MOOD: INTROSPECTIVE';
+      moodIndicator.className = 'mood-indicator intense';
+    } else if (pct < 0.50) {
+      threadLine.setAttribute('stroke-dasharray', '3 5 1 9');
+      threadLine.setAttribute('stroke-width', '1.5');
+      moodIndicator.textContent = '// MUSIC MOOD: INTENSE & HOPEFUL';
+      moodIndicator.className = 'mood-indicator intense';
+    } else if (pct < 0.66) {
+      threadLine.setAttribute('stroke-dasharray', '2000');
+      threadLine.setAttribute('stroke-width', '2.5');
+      moodIndicator.textContent = '// MUSIC MOOD: SOARING & FREE';
+      moodIndicator.className = 'mood-indicator building';
+    } else if (pct < 0.83) {
+      threadLine.setAttribute('stroke-dasharray', '6 3');
+      threadLine.setAttribute('stroke-width', '3');
+      moodIndicator.textContent = '// MUSIC MOOD: TENDER & SERENE';
+      moodIndicator.className = 'mood-indicator tender';
+    } else {
+      threadLine.setAttribute('stroke-dasharray', '2000');
+      threadLine.setAttribute('stroke-width', '4');
+      moodIndicator.textContent = '// MUSIC MOOD: ETERNAL & PEACEFUL';
+      moodIndicator.className = 'mood-indicator peaceful';
+    }
+  }
+  window.addEventListener('scroll', updateThread);
+  updateThread();
+
+  // ============ Chapter reveals ============
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.2 });
+  document.querySelectorAll('.chapter-inner').forEach(el => io.observe(el));
+
+  // ============ Pick a Fight (Year 3) ============
+  const fights = [
+    {
+      her: "Tumne bola tha 8 baje aaoge. Abhi 8:14 ho rahe hain. Yeh kya hai? Yeh kya behaviour hai? Mai yahaan kab se intezaar kar rahi hoon, aur tum casually walk-in karte ho jaise koi event ho?",
+      me:  "She was, on the clock, fourteen minutes correct. On the calendar of who I became, she was six years correct. Every fight like this one was a small bill being paid against the boy who used to think being late was charming."
+    },
+    {
+      her: "Tumne biryani order ki without poochhe? Bina poochhe?! Mujhe nahi pasand thi yeh wali. Aur ab tum keh rahe ho 'try kar lo'? Mai koi food critic nahi hoon jo har new cheez try karu jab mood off ho.",
+      me:  "I learnt, slowly, that 'I'll just order' is not a kindness. It is a refusal to ask. She didn't want biryani. She wanted to be consulted. Year Three I started understanding the difference."
+    },
+    {
+      her: "Tumne meri behen ke saamne woh joke kyu kiya? Tum jaante ho na woh sensitive hai. Yeh tumhari woh purani childish wali side aa rahi hai phir se. Mai usse handle nahi kar sakti aaj. Bas.",
+      me:  "The childish side. She had a name for it. She had a watch on it. She caught it sneaking back every time, and called it out. I owe ninety percent of my growing up to her precise refusal to let that boy walk back into the room."
+    },
+    {
+      her: "Movie ka ending tumne spoil kar diya. SPOIL. KAR. DIYA. Tum jaante ho na mai kitne months se yeh dekhne wali thi. Yeh trust ka issue hai. Yeh seriously trust ka issue hai.",
+      me:  "She was right to call it trust. Every small carelessness is the same carelessness wearing a different shirt. The boy who spoils a movie is the same boy who forgets a date is the same boy who interrupts a sentence. Year Three I started seeing the pattern."
+    },
+    {
+      her: "Tum bolte ho 'main sun raha hoon' lekin tumhari aankhein phone mein hoti hain. Yeh sunna nahi hai. Yeh acting hai. Aur mujhe acting nahi chahiye. Mujhe presence chahiye.",
+      me:  "Presence. The word she used was presence. Nobody had ever asked me for that before. People had asked me to listen, to behave, to grow up — but presence was the upgrade. Year Three I started practising it. Year Six I'm still practising it."
+    },
+    {
+      her: "Tumne mere naam ko galat pronounce kiya. AGAIN. Pichli baar bhi kiya tha. Tum jaante ho mera naam, tum jaante ho! Yeh casualness mujhe pareshan karti hai. Yeh respect ka maamla hai.",
+      me:  "She is the only person whose name I am required to know in this entire universe, and I had been mispronouncing it. Of course she was furious. Year Three I learnt: love is, among many other things, the discipline of saying the right name correctly, every time."
+    }
+  ];
+  let lastFight = -1;
+  function pickAFight() {
+    let i;
+    do { i = Math.floor(Math.random() * fights.length); } while (i === lastFight && fights.length > 1);
+    lastFight = i;
+    const card = document.getElementById('fight-card');
+    document.getElementById('her-line').textContent = fights[i].her;
+    document.getElementById('my-line').textContent = fights[i].me;
+    card.classList.remove('show');
+    void card.offsetWidth;
+    card.classList.add('show');
+  }
+
+  // ============ Full Letter Modal ============
+  function openFullNote() {
+    document.getElementById('modalTitle').textContent = 'The Complete Letter';
+    const fullText = `
+      <p style="text-align: center; margin-bottom: 2rem;">
+        <span style="color: var(--gold); font-family: 'JetBrains Mono'; font-size: 0.8rem; letter-spacing: 0.2em;">~ SIX YEARS ~</span>
+      </p>
+
+      <p><strong>What You Made Of Me</strong></p>
+
+      <p style="margin-bottom: 1rem; opacity: 0.8; font-style: italic; font-size: 0.95rem;">
+        Six years ago, you said yes to a boy who thought love was permission to stay exactly as he was.
+        Today, standing at the threshold of forever, I need you to know: you didn't love me as I was.
+        You loved me into who I could be. And that's the rarest kind of love there is.
+      </p>
+
+      <p><strong>The Six Chapters:</strong></p>
+
+      <p style="margin-top: 1rem;"><strong>Year One — The Collision:</strong>
+      I arrived as I was: loud, careless, certain of my own rightness. You watched. You said nothing yet.
+      But you were taking notes. You weren't collecting evidence to leave. You were collecting evidence to build.</p>
+
+      <p><strong>Year Two — The Mirror:</strong>
+      You began holding up mirrors. Not angry mirrors. Just mirrors. You'd repeat my own words back to me,
+      in my own voice, at exactly the moment I needed to hear them from outside. It was unbearable.
+      It was the beginning of everything.</p>
+
+      <p><strong>Year Three — The Hard Year:</strong>
+      This was when the cute version of love ended and the real one began. We fought like we meant it.
+      You argued like a lawyer. Every fight you started that year was not because you wanted to be right.
+      You wanted me to be <em>better.</em> And you picked the fights other people would have left me to my worst self over.</p>
+
+      <p><strong>Year Four — The Shedding:</strong>
+      The old me started leaving the room without saying goodbye. The drinking slowed. The loud jokes thinned out.
+      Old friends said I'd changed. They were right. They just didn't understand that you had quietly rebuilt me
+      from the inside out. The scaffolding came down, and I was still standing.</p>
+
+      <p><strong>Year Five — The Recognition:</strong>
+      One ordinary morning I caught my own reflection—literally, or in someone else's reaction to me—
+      and I did not recognize the boy I used to be. And then a worse, better thing happened: I did not miss him.
+      I understood, with my whole body, what you had been doing. You had not loved me as I was.
+      You had loved me into who I could be. Those are not the same thing. The second one is rarer.
+      The second one is what people mean when they say <em>saved.</em></p>
+
+      <p><strong>Year Six — The Vow Before The Vow:</strong>
+      Six years ago you said yes to a boy. In a few months, the world will watch a <em>man</em> say yes back to you.
+      Same body. Different soul. You did that. Not by lecturing me. Not by leaving and coming back to teach me a lesson.
+      Not by softening yourself to make me comfortable. You did it the hardest way—by staying, year after year,
+      and gently refusing to settle for the version of me that was easy for both of us.</p>
+
+      <p style="margin-top: 2rem; text-align: center; font-style: italic; color: var(--rose);">
+        Thank you, my love, for not loving the boy.<br/>
+        Thank you for loving the man you knew was inside him.
+      </p>
+    `;
+
+    document.getElementById('modalBody').innerHTML = fullText;
+    document.getElementById('modalBg').classList.add('open');
+  }
+
+  // ============ Wikipedia movie modal ============
+  function openMovie(title) {
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = '<p style="opacity:0.6;">Loading from Wikipedia…</p>';
+    document.getElementById('modalBg').classList.add('open');
+    const url = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title.replace(/ /g, '_'))}`;
+    fetch(url)
+      .then(r => r.ok ? r.json() : Promise.reject())
+      .then(d => {
+        const body = document.getElementById('modalBody');
+        body.innerHTML = `
+          ${d.thumbnail ? `<img src="${d.thumbnail.source}" style="float:right; max-width:140px; margin: 0 0 1rem 1rem; border-radius:8px;"/>` : ''}
+          <p>${d.extract || 'No summary available.'}</p>
+          <p style="margin-top:1rem;"><a href="${d.content_urls.desktop.page}" target="_blank" style="color:var(--gold); font-family:'JetBrains Mono',monospace; letter-spacing:0.2em; font-size:0.8rem;">READ MORE ↗</a></p>
+        `;
+      })
+      .catch(() => {
+        document.getElementById('modalBody').innerHTML = '<p style="opacity:0.7;">Couldn\'t load from Wikipedia — but the song still plays.</p>';
+      });
+  }
+
+  function closeMovie() { document.getElementById('modalBg').classList.remove('open'); }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMovie(); });
+
+  // ============ Dynamic Stage-Based Background Music ============
+  const audio = document.getElementById('ambientAudio');
+  const musicToggle = document.getElementById('musicToggle');
+  const musicIcon = document.getElementById('musicIcon');
+  let isPlaying = false;
+  let currentStage = 'intro';
+
+  // YouTube Music URLs for each stage (using Spotify/YouTube links)
+  const stageMusicMap = {
+    intro: 'https://www.youtube.com/results?search_query=bairan',
+    y1: 'https://open.spotify.com/search/budapest%20george%20ezra',
+    y2: 'https://open.spotify.com/search/the%20night%20we%20met',
+    y3: 'https://open.spotify.com/search/fix%20you%20coldplay',
+    y4: 'https://open.spotify.com/search/home%20edward%20sharpe',
+    y5: 'https://open.spotify.com/search/golden%20harry%20styles',
+    y6: 'https://open.spotify.com/search/perfect%20ed%20sheeran'
+  };
+
+  // Track current stage based on scroll position
+  function updateCurrentStage() {
+    const scrolled = window.scrollY;
+    const docH = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = Math.min(1, Math.max(0, scrolled / docH));
+
+    let newStage = 'intro';
+    if (pct < 0.16) newStage = 'y1';
+    else if (pct < 0.33) newStage = 'y2';
+    else if (pct < 0.50) newStage = 'y3';
+    else if (pct < 0.66) newStage = 'y4';
+    else if (pct < 0.83) newStage = 'y5';
+    else newStage = 'y6';
+
+    if (newStage !== currentStage) {
+      currentStage = newStage;
+      updateStageIndicator();
+    }
+  }
+
+  function updateStageIndicator() {
+    const stageNames = {
+      'intro': 'Bairan',
+      'y1': 'Budapest',
+      'y2': 'The Night We Met',
+      'y3': 'Fix You',
+      'y4': 'Home',
+      'y5': 'Golden',
+      'y6': 'Perfect'
+    };
+    const musicLabel = document.querySelector('.music-label');
+    if (musicLabel) {
+      musicLabel.textContent = stageNames[currentStage] || 'Bairan';
+    }
+  }
+
+  window.addEventListener('scroll', updateCurrentStage);
+
+  // Auto-play with user interaction
+  function playAudio() {
+    if (!isPlaying) {
+      audio.play().catch(() => {
+        // Auto-play blocked, user must interact first
+      });
+      isPlaying = true;
+      updateMusicIcon();
+    }
+  }
+
+  // Try to play on load
+  document.addEventListener('click', () => {
+    if (!isPlaying) playAudio();
+  }, { once: true });
+
+  document.addEventListener('touchstart', () => {
+    if (!isPlaying) playAudio();
+  }, { once: true });
+
+  // Music toggle control
+  musicToggle.addEventListener('click', () => {
+    if (isPlaying) {
+      audio.pause();
+      isPlaying = false;
+    } else {
+      playAudio();
+    }
+    updateMusicIcon();
+  });
+
+  function updateMusicIcon() {
+    if (isPlaying) {
+      musicIcon.textContent = '🔊';
+      musicToggle.classList.remove('muted');
+    } else {
+      musicIcon.textContent = '🔇';
+      musicToggle.classList.add('muted');
+    }
+  }
+
+  // Set audio volume to subtle level
+  audio.volume = 0.25;
+
+  // ============ Ambient quote ============
+  fetch('https://api.quotable.io/random?tags=love')
+    .then(r => r.ok ? r.json() : Promise.reject())
+    .then(d => {
+      const note = document.createElement('p');
+      note.className = 'ambient';
+      note.style.position = 'fixed';
+      note.style.bottom = '2vh';
+      note.style.left = '2vw';
+      note.style.maxWidth = '300px';
+      note.style.zIndex = '3';
+      note.innerHTML = `// "${d.content}"<br/>&mdash; ${d.author}`;
+      document.body.appendChild(note);
+    })
+    .catch(() => { /* graceful */ });
+</script>
+</body>
+</html>
