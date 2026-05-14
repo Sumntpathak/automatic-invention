@@ -379,11 +379,12 @@
 <body>
 
 <!-- Background Music: Bairan -->
-<audio id="bgMusic" loop>
+<audio id="bgMusic" loop style="display: none;">
   <source src="bairan.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
 </audio>
 
-<div class="music-control" id="musicToggle" title="Toggle music">♪</div>
+<div class="music-control" id="musicToggle" title="Toggle music">🔊</div>
 
 <div class="stars"></div>
 
@@ -589,30 +590,36 @@
   const musicToggle = document.getElementById('musicToggle');
   let isPlaying = false;
 
-  musicToggle.addEventListener('click', () => {
+  function toggleMusic() {
     if (isPlaying) {
       bgMusic.pause();
       isPlaying = false;
+      musicToggle.textContent = '🔇';
       musicToggle.classList.remove('playing');
     } else {
       bgMusic.play().catch(() => {
-        console.log('Autoplay prevented - click to enable');
+        console.log('Click the speaker icon to start music');
       });
       isPlaying = true;
+      musicToggle.textContent = '🔊';
       musicToggle.classList.add('playing');
     }
-  });
+  }
 
-  // Auto-attempt to play on load (browsers may block)
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      bgMusic.play().catch(() => {
-        console.log('Autoplay blocked - user can click music icon to start');
-      });
+  musicToggle.addEventListener('click', toggleMusic);
+
+  // Auto-start music on user interaction (scroll, click anywhere)
+  document.addEventListener('click', () => {
+    if (!isPlaying && bgMusic.paused) {
+      bgMusic.play().catch(() => {});
       isPlaying = true;
+      musicToggle.textContent = '🔊';
       musicToggle.classList.add('playing');
-    }, 500);
-  });
+    }
+  }, { once: true });
+
+  // Set volume to subtle level
+  bgMusic.volume = 0.25;
 
   // Initialize
   showQuestion(1);
